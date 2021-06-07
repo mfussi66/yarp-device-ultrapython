@@ -23,6 +23,7 @@ target_sources(ultrapythoncli
 PRIVATE
 UltraPythonCli.h
 UltraPythonCli.cpp
+main.cpp
 )
 
 target_compile_features(ultrapythoncli PRIVATE cxx_std_17)

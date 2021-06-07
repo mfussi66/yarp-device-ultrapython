@@ -16,19 +16,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#include "UltraPythonCli.h"
+
 #include <iostream>
 
-int main(int argc, char* argv[]) {
-    if (argc != 4 && argc != 2)
+UltraPythonTerminalClient::UltraPythonTerminalClient(){};
+
+bool UltraPythonTerminalClient::initYarp(const std::string& remotePort)
+{
+	if (!yarp::os::NetworkBase::checkNetwork(2))
 	{
-		std::cout << "Use 'ultrapythoncli --help'" << std::endl;
-		exit(-1);
-	}
-    if (std::string(argv[1]) == "--help")
-	{
-		std::cout << "Usage 'ultrapythoncli --remote /name'  NOTE: the name is without rpc and port name usually is /grabber"<<std::endl;
+		std::cout << "Yarp yarpserver not found.\n "
+					 "Please activate yarpserver and retry."
+				  << std::endl;
 		exit(-1);
 	}
 
-    return 0;
+	yarp::os::Property property;
+	property.put("device", "remote_grabber");
+	property.put("local", "/xxx");
+	property.put("remote", remotePort + "/rpc");
+
+	if (!UltraPythonTerminalClient::device_.open(property))
+	{
+		std::cout << "Unable to open device." << std::endl;
+		exit(-1);
+	}
+	UltraPythonTerminalClient::device_.view(grabber_);
+
+	if (!UltraPythonTerminalClient::grabber_)
+	{
+		std::cout << "Unable to view device." << std::endl;
+		exit(-1);
+		return false;
+	}
+	return true;
 }

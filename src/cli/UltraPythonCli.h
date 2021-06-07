@@ -15,3 +15,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
+#pragma once
+
+#include <yarp/dev/DeviceDriver.h>
+#include <yarp/dev/FrameGrabberInterfaces.h>
+#include <yarp/dev/PolyDriver.h>
+#include <yarp/os/Property.h>
+
+#include "../common/common.h"
+
+#include <iostream>
+
+class UltraPythonTerminalClient
+{
+   public:
+	UltraPythonTerminalClient();
+	~UltraPythonTerminalClient();
+
+   private:
+	// yarp::os::Network yarp;
+	yarp::dev::PolyDriver device_;
+	yarp::dev::IFrameGrabberControls* grabber_;
+
+    bool initYarp(const std::string& remotePort);
+};
