@@ -18,39 +18,40 @@
 
 #include "UltraPythonCli.h"
 
-int main(int argc, char* argv[])
-{
-	if (argc > 4 || argc < 2)
-	{
-		std::cout << "Use 'ultrapythoncli --help'" << std::endl;
-		exit(-1);
-	}
+int main(int argc, char* argv[]) {
+  if (argc > 4 || argc < 2) {
+    std::cout << "Use 'ultrapythoncli --help'" << std::endl;
+    exit(-1);
+  }
 
-	if (std::string(argv[1]) == "--help")
-	{
-		std::cout << "Usage 'ultrapythoncli [--help] [--get value] "
-					 "[--set ctrlcode value]'  NOTE: the name is without rpc and "
-					 "port name usually is /grabber"
-				  << std::endl;
-		exit(-1);
-	}
+  if (std::string(argv[1]) == "--help") {
+    std::cout << "Usage 'ultrapythoncli [--help] [--get value] "
+                 "[--set ctrlcode value]'  NOTE: the name is without rpc and "
+                 "port name usually is /grabber"
+              << std::endl;
+    exit(-1);
+  }
 
-	if (!yarp::os::NetworkBase::checkNetwork(2))
-	{
-		std::cout << "Yarp yarpserver not found.\n "
-					 "Please activate yarpserver and retry."
-				  << std::endl;
-		exit(-1);
-	}
+  if (!yarp::os::NetworkBase::checkNetwork(2)) {
+    std::cout << "Yarp yarpserver not found.\n "
+                 "Please activate yarpserver and retry."
+              << std::endl;
+    exit(-1);
+  }
 
-	
-	UltraPythonCli myclient("/grabber");
+  UltraPythonCli client("/grabber");
+  int controlCode = 0;
 
-	/*
-	if (std::string(argv[1]) == "--set")
-	{
-		bool result = client.grabber_->setFeature(std::atoi(argv[2]), std::atof(argv[3]));
-	}
-	*/
-	return 0;
+  if (std::string(argv[1]) == "--set") {
+
+    try {
+      controlCode = std::atoi(argv[2]);
+    } catch (const std::exception& e) {
+      std::cout << e.what()
+                << "\n Control codes can be expressed only in integer values."
+                << std::endl;
+    }
+  }
+
+  return 0;
 }

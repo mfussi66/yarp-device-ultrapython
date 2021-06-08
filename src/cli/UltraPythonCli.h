@@ -27,18 +27,20 @@
 
 #include "../common/common.h"
 
-class UltraPythonCli
-{
-   public:
-	UltraPythonCli(const std::string& remotePort);
-	~UltraPythonCli();
+class UltraPythonCli {
+ public:
+  UltraPythonCli(const std::string &remotePort);
+  ~UltraPythonCli();
 
-	inline yarp::dev::IFrameGrabberControls* getGrabber()
-	{
-		return grabber_;
-	};
+  bool setGrabberFeature(int feature, double value);
 
-   private:
-	yarp::dev::PolyDriver device_;
-	yarp::dev::IFrameGrabberControls* grabber_;
+  bool setGrabberFeature(int feature, double value1, double value2);
+
+  bool getGrabberFeature(int feature, double *value);
+
+  bool getGrabberFeature(int feature, double *value1, double *value2);
+
+ private:
+  yarp::dev::PolyDriver device_;
+  yarp::dev::IFrameGrabberControls *grabber_;
 };
