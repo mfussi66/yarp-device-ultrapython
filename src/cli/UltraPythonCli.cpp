@@ -20,20 +20,8 @@
 
 #include <iostream>
 
-UltraPythonCli::UltraPythonCli(const std::string &remotePort) {
-  yarp::os::Property property;
-  property.put("device", "remote_grabber");
-  property.put("local", "/xxx");
-  property.put("remote", remotePort + "/rpc");
-
-  if (!UltraPythonCli::device_.open(property)) {
-    std::cout << "Unable to open device." << std::endl;
-    exit(-1);
-  }
-
-  UltraPythonCli::device_.view(grabber_);
-
-  if (!UltraPythonCli::grabber_) {
+UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber) {
+  if (!grabber) {
     std::cout << "Unable to view device." << std::endl;
     exit(-1);
   }
@@ -41,20 +29,42 @@ UltraPythonCli::UltraPythonCli(const std::string &remotePort) {
 
 UltraPythonCli::~UltraPythonCli() {}
 
-bool UltraPythonCli::setGrabberFeature(int feature, double value) {
-  return grabber_->setFeature(feature, value);
+bool UltraPythonCli::InitYarpCommunication(
+    const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
+  if (!yarp::os::NetworkBase::checkNetwork(2)) {
+    return false;
+  }
+  property_.put("device", "remote_grabber");
+  property_.put("local", "/xxx");
+  property_.put("remote", remotePort + "/rpc");
+
+  if (!device_.open(property_)) {
+    return false;
+  }
+  device_.view(grabber);
+
+  if (!grabber) {
+    std::cout << "Unable to view device." << std::endl;
+    return false;
+  }
+
+  return true;
 }
 
-bool UltraPythonCli::setGrabberFeature(int feature, double value1,
-                                        double value2) {
-  return grabber_->setFeature(feature, value1, value2);
+/*
+bool UltraPythonCli::setGrabberFeature(int feature, double value) {
+return grabber->setFeature(feature, value);
+}
+
+bool UltraPythonCli::setGrabberFeature(int feature, double value1, double
+value2) { return grabber->setFeature(feature, value1, value2);
 }
 
 bool UltraPythonCli::getGrabberFeature(int feature, double *value) {
-  return grabber_->getFeature(feature, value);
+return grabber->getFeature(feature, value);
 }
 
-bool UltraPythonCli::getGrabberFeature(int feature, double *value1,
-                                       double *value2) {
-  return grabber_->getFeature(feature, value1, value2);
+bool UltraPythonCli::getGrabberFeature(int feature, double *value1, double
+*value2) { return grabber->getFeature(feature, value1, value2);
 }
+ */
