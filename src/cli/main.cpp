@@ -35,13 +35,22 @@ int main(int argc, char* argv[])
 		exit(-1);
 	}
 
-    UltraPythonTerminalClient client();
+	if (!yarp::os::NetworkBase::checkNetwork(2))
+	{
+		std::cout << "Yarp yarpserver not found.\n "
+					 "Please activate yarpserver and retry."
+				  << std::endl;
+		exit(-1);
+	}
 
-    /*
+	
+	UltraPythonCli myclient("/grabber");
+
+	/*
 	if (std::string(argv[1]) == "--set")
 	{
-        bool result = client.grabber_->setFeature(std::atoi(argv[2]), std::atof(argv[3]));
+		bool result = client.grabber_->setFeature(std::atoi(argv[2]), std::atof(argv[3]));
 	}
-    */
+	*/
 	return 0;
 }

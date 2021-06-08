@@ -20,35 +20,26 @@
 
 #include <iostream>
 
-UltraPythonTerminalClient::UltraPythonTerminalClient(){};
-
-bool UltraPythonTerminalClient::initYarp(const std::string& remotePort)
+UltraPythonCli::UltraPythonCli(const std::string& remotePort)
 {
-	if (!yarp::os::NetworkBase::checkNetwork(2))
-	{
-		std::cout << "Yarp yarpserver not found.\n "
-					 "Please activate yarpserver and retry."
-				  << std::endl;
-		exit(-1);
-	}
-
 	yarp::os::Property property;
 	property.put("device", "remote_grabber");
 	property.put("local", "/xxx");
 	property.put("remote", remotePort + "/rpc");
 
-	if (!UltraPythonTerminalClient::device_.open(property))
+	if (!UltraPythonCli::device_.open(property))
 	{
 		std::cout << "Unable to open device." << std::endl;
 		exit(-1);
 	}
-	UltraPythonTerminalClient::device_.view(grabber_);
 
-	if (!UltraPythonTerminalClient::grabber_)
+	UltraPythonCli::device_.view(grabber_);
+
+	if (!UltraPythonCli::grabber_)
 	{
 		std::cout << "Unable to view device." << std::endl;
 		exit(-1);
-		return false;
 	}
-	return true;
-}
+};
+
+UltraPythonCli::~UltraPythonCli() {}

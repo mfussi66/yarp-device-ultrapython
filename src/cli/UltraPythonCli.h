@@ -23,20 +23,22 @@
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Property.h>
 
-#include "../common/common.h"
-
 #include <iostream>
 
-class UltraPythonTerminalClient
+#include "../common/common.h"
+
+class UltraPythonCli
 {
    public:
-	UltraPythonTerminalClient();
-	~UltraPythonTerminalClient();
+	UltraPythonCli(const std::string& remotePort);
+	~UltraPythonCli();
+
+	inline yarp::dev::IFrameGrabberControls* getGrabber()
+	{
+		return grabber_;
+	};
 
    private:
-	// yarp::os::Network yarp;
 	yarp::dev::PolyDriver device_;
 	yarp::dev::IFrameGrabberControls* grabber_;
-
-    bool initYarp(const std::string& remotePort);
 };
