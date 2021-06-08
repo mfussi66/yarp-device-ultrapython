@@ -42,19 +42,19 @@ UltraPythonCli::UltraPythonCli(const std::string &remotePort) {
 UltraPythonCli::~UltraPythonCli() {}
 
 bool UltraPythonCli::setGrabberFeature(int feature, double value) {
-  grabber_->setFeature(feature, value);
+  return grabber_->setFeature(feature, value);
 }
 
 bool UltraPythonCli::setGrabberFeature(int feature, double value1,
                                         double value2) {
-  grabber_->setFeature(feature, value1, value2);
+  return grabber_->setFeature(feature, value1, value2);
 }
 
 bool UltraPythonCli::getGrabberFeature(int feature, double *value) {
-  grabber_->getFeature(feature, value);
+  return grabber_->getFeature(feature, value);
 }
 
 bool UltraPythonCli::getGrabberFeature(int feature, double *value1,
                                        double *value2) {
-  grabber_->getFeature(feature, value1, value2);
+  return grabber_->getFeature(feature, value1, value2);
 }

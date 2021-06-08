@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
       controlCode = std::atoi(argv[2]);
     } catch (const std::exception& e) {
       std::cout << e.what()
-                << "\n Control codes can be expressed only in integer values."
+                << "\nControl codes can be expressed only in integer values."
                 << std::endl;
     }
   }
