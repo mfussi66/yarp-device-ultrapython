@@ -25,23 +25,21 @@ int main(int argc, char* argv[]) {
   }
 
   if (std::string(argv[1]) == "--help") {
-    std::cout << "Usage 'ultrapythoncli [--help] [--get value] "
-                 "[--set ctrlcode value]'  NOTE: the name is without rpc and "
+    std::cout << "Usage 'ultrapythoncli [--help] [--get value] [--set ctrlcode value]'"
+                 "NOTE: the name is without rpc and "
                  "port name usually is /grabber"
               << std::endl;
     return -1;
   }
 
   if (!yarp::os::NetworkBase::checkNetwork(2)) {
-    std::cout << "Yarp yarpserver not found.\n "
-                 "Please activate yarpserver and retry."
-              << std::endl;
+    std::cout << "Yarp yarpserver not found.\nPlease activate yarpserver and retry." << std::endl;
     return -1;
   }
 
   yarp::dev::IFrameGrabberControls* grabber;
   UltraPythonCli client(grabber);
-  
+
   int controlCode = 0;
   double value = 0.0;
 
@@ -49,9 +47,7 @@ int main(int argc, char* argv[]) {
     try {
       controlCode = std::atoi(argv[2]);
     } catch (const std::exception& e) {
-      std::cout << e.what()
-                << "\nControl codes can be expressed only in integer values."
-                << std::endl;
+      std::cout << e.what() << "\nControl codes can be expressed only in integer values." << std::endl;
       return -1;
     }
 
@@ -75,9 +71,7 @@ int main(int argc, char* argv[]) {
     try {
       controlCode = std::atoi(argv[2]);
     } catch (const std::exception& e) {
-      std::cout << e.what()
-                << "\nControl codes can be expressed only in integer values."
-                << std::endl;
+      std::cout << e.what() << "\nControl codes can be expressed only in integer values." << std::endl;
       return -1;
     }
     bool result = grabber->getFeature(controlCode, &value);
@@ -87,8 +81,7 @@ int main(int argc, char* argv[]) {
       // emitError("blue gain");
       return -1;
     }
-    std::cout << "Value for control code " << controlCode << " is: " << value
-              << std::endl;
+    std::cout << "Value for control code " << controlCode << " is: " << value << std::endl;
   }
 
   return 0;

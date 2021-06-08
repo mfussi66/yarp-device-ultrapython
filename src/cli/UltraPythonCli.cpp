@@ -29,8 +29,7 @@ UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber) {
 
 UltraPythonCli::~UltraPythonCli() {}
 
-bool UltraPythonCli::InitYarpCommunication(
-    const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
+bool UltraPythonCli::InitYarpCommunication(const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
   if (!yarp::os::NetworkBase::checkNetwork(2)) {
     return false;
   }
