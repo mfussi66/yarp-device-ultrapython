@@ -32,8 +32,7 @@ class UltraPythonCli {
  public:
   /**
    * @brief Construct a new Ultra Python Cli object
-   *
-   * @param grabber Pointer to object representing a camera features controller
+   * @param grabber Pointer to object representing the camera features controller
    */
   UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber);
 
@@ -58,7 +57,7 @@ class UltraPythonCli {
    *
    * @param c string to be split
    * @param separator character delimiter
-   * @return a vector containing separated substrings
+   * @return The separated substrings in a vector
    */
   std::vector<std::string> splitString(const std::string& c,
                                        const char* separator);
