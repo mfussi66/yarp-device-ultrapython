@@ -16,8 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#include "../UltraPythonCli.h"
+#include "../../../cli/UltraPythonCli.h"
 #include "CliMock.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
+
+/* TEST(UltraPythonCli, setFeature_ok) {
+    IFrameGrabberControlsMock *grabber = new IFrameGrabberControlsMock();
+} */
