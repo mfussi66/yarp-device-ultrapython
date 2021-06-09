@@ -30,14 +30,36 @@
 
 class UltraPythonCli {
  public:
+  /**
+   * @brief Construct a new Ultra Python Cli object
+   *
+   * @param grabber Pointer to object representing a camera features controller
+   */
   UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber);
 
-  /* Default destructor */
+  /**
+   * @brief Destroy the Ultra Python Cli object
+   */
   ~UltraPythonCli();
 
+  /**
+   * @brief Verifies the status of the Yarp network and sets the properties
+   *        of the frame grabber
+   * @param remotePort string containing the port at which the grabber connects
+   * to
+   * @param grabber pointer to the frame grabber object to be filled
+   * @return true if successful, false otherwise.
+   */
   bool InitYarpCommunication(const std::string& remotePort,
                              yarp::dev::IFrameGrabberControls* grabber);
 
+  /**
+   * @brief Splits a string according to a custom separator
+   *
+   * @param c string to be split
+   * @param separator character delimiter
+   * @return a vector containing separated substrings
+   */
   std::vector<std::string> splitString(const std::string& c,
                                        const char* separator);
   /*
@@ -50,6 +72,14 @@ class UltraPythonCli {
       bool getGrabberFeature(int feature, double *value1, double *value2);
   */
  private:
+  /**
+   * @brief Device object containing connection properties needed to instantiate
+   *        the frame grabber.
+   */
   yarp::dev::PolyDriver device_;
+
+  /**
+   * @brief Container of connection properties of the device.
+   */
   yarp::os::Property property_;
 };

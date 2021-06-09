@@ -18,6 +18,10 @@
 
 #include "UltraPythonCli.h"
 
+/**
+ * @brief Executes the main loop, and parses command line arguments
+ * @returns -1 on error, 0 if successful
+ */
 int main(int argc, char* argv[]) {
   if (argc > 4 || argc < 2) {
     std::cout << "Use 'ultrapythoncli --help'" << std::endl;
