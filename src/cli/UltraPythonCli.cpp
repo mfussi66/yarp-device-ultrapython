@@ -18,8 +18,6 @@
 
 #include "UltraPythonCli.h"
 
-#include <iostream>
-
 UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber) {
   if (!grabber) {
     std::cout << "Unable to view device." << std::endl;
@@ -29,7 +27,8 @@ UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber) {
 
 UltraPythonCli::~UltraPythonCli() {}
 
-bool UltraPythonCli::InitYarpCommunication(const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
+bool UltraPythonCli::InitYarpCommunication(
+    const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
   if (!yarp::os::NetworkBase::checkNetwork(2)) {
     return false;
   }
@@ -48,6 +47,27 @@ bool UltraPythonCli::InitYarpCommunication(const std::string& remotePort, yarp::
   }
 
   return true;
+}
+
+std::vector<std::string> UltraPythonCli::splitString(const std::string& s, const char* separator) {
+  std::vector<std::string> output;
+  std::string::size_type previous_position = 0;
+  std::string::size_type position = 0;
+
+  while ((position = s.find(separator, position)) != std::string::npos) {
+    std::string substring(
+        s.substr(previous_position, position - previous_position));
+    output.push_back(substring);
+    previous_position = ++position;
+  }
+  // Last word
+  output.push_back(s.substr(previous_position, position - previous_position));
+  return output;
+}
+
+void UltraPythonCli::emitError(const std::string& text)
+{
+    std::cout << "Not able to set " + text + ".\nCheck remote yarpdev device." << std::endl;
 }
 
 /*

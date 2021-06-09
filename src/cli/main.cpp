@@ -22,10 +22,10 @@ int main(int argc, char* argv[]) {
   if (argc > 4 || argc < 2) {
     std::cout << "Use 'ultrapythoncli --help'" << std::endl;
     return -1;
-  }
+    }
 
   if (std::string(argv[1]) == "--help") {
-    std::cout << "Usage 'ultrapythoncli [--help] [--get value] [--set ctrlcode value]'"
+    std::cout << "Usage 'ultrapythoncli [--help] [--get controlcode] [--set controlcode value]'"
                  "NOTE: the name is without rpc and "
                  "port name usually is /grabber"
               << std::endl;
@@ -42,17 +42,22 @@ int main(int argc, char* argv[]) {
 
   int controlCode = 0;
   double value = 0.0;
-
+  
   if (std::string(argv[1]) == "--set") {
+    
+    std::vector<std::string> set_args = client.splitString(argv[2], "=");
+
+    // Assume control code as first string
     try {
-      controlCode = std::atoi(argv[2]);
+      controlCode = std::stoi(set_args[0]);
     } catch (const std::exception& e) {
       std::cout << e.what() << "\nControl codes can be expressed only in integer values." << std::endl;
       return -1;
     }
 
+    // Assume desired value as second string
     try {
-      controlCode = std::atoi(argv[3]);
+      value = std::stoi(set_args[1]);
     } catch (const std::exception& e) {
       std::cout << e.what() << "\nInvalid set value." << std::endl;
       return -1;
@@ -66,6 +71,7 @@ int main(int argc, char* argv[]) {
       return -1;
     }
   }
+
 
   if (std::string(argv[1]) == "--get") {
     try {

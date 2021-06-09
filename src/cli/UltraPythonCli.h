@@ -24,6 +24,7 @@
 #include <yarp/os/Property.h>
 
 #include <iostream>
+#include <string>
 
 #include "../common/common.h"
 
@@ -45,6 +46,11 @@ class UltraPythonCli {
 
       bool getGrabberFeature(int feature, double *value1, double *value2);
   */
+
+ std::vector<std::string> splitString(const std::string& c, const char* separator);
+ 
+void emitError(const std::string& text);
+
  private:
   yarp::dev::PolyDriver device_;
   yarp::os::Property property_;
