@@ -35,8 +35,11 @@ class UltraPythonCli {
   /* Default destructor */
   ~UltraPythonCli();
 
-  bool InitYarpCommunication(const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber);
+  bool InitYarpCommunication(const std::string& remotePort,
+                             yarp::dev::IFrameGrabberControls* grabber);
 
+  std::vector<std::string> splitString(const std::string& c,
+                                       const char* separator);
   /*
       bool setGrabberFeature(int feature, double value);
 
@@ -46,11 +49,6 @@ class UltraPythonCli {
 
       bool getGrabberFeature(int feature, double *value1, double *value2);
   */
-
- std::vector<std::string> splitString(const std::string& c, const char* separator);
- 
-void emitError(const std::string& text);
-
  private:
   yarp::dev::PolyDriver device_;
   yarp::os::Property property_;

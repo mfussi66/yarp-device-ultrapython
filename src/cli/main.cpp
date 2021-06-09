@@ -22,36 +22,35 @@ int main(int argc, char* argv[]) {
   if (argc > 4 || argc < 2) {
     std::cout << "Use 'ultrapythoncli --help'" << std::endl;
     return -1;
-    }
+  }
 
   if (std::string(argv[1]) == "--help") {
-    std::cout << "Usage 'ultrapythoncli [--help] [--get controlcode] [--set controlcode value]'"
+    std::cout << "Usage 'ultrapythoncli [--help] [--get controlcode] [--set "
+                 "controlcode value]'"
                  "NOTE: the name is without rpc and "
                  "port name usually is /grabber"
               << std::endl;
     return -1;
   }
 
-  if (!yarp::os::NetworkBase::checkNetwork(2)) {
-    std::cout << "Yarp yarpserver not found.\nPlease activate yarpserver and retry." << std::endl;
-    return -1;
-  }
-
   yarp::dev::IFrameGrabberControls* grabber;
   UltraPythonCli client(grabber);
 
+  client.InitYarpCommunication("/grabber", grabber);
+
   int controlCode = 0;
   double value = 0.0;
-  
+
   if (std::string(argv[1]) == "--set") {
-    
     std::vector<std::string> set_args = client.splitString(argv[2], "=");
 
     // Assume control code as first string
     try {
       controlCode = std::stoi(set_args[0]);
     } catch (const std::exception& e) {
-      std::cout << e.what() << "\nControl codes can be expressed only in integer values." << std::endl;
+      std::cout << e.what()
+                << "\nControl codes can be expressed only in integer values."
+                << std::endl;
       return -1;
     }
 
@@ -66,28 +65,33 @@ int main(int argc, char* argv[]) {
     bool result = grabber->setFeature(controlCode, value);
 
     if (!result) {
-      std::cout << "Error on setfeature" << std::endl;
-      // emitError("blue gain");
+      std::cout << "Unable to set control " + std::to_string(controlCode) +
+                       "=" + std::to_string(value) +
+                       ".\nCheck remote yarpdev device."
+                << std::endl;
       return -1;
     }
   }
-
 
   if (std::string(argv[1]) == "--get") {
     try {
       controlCode = std::atoi(argv[2]);
     } catch (const std::exception& e) {
-      std::cout << e.what() << "\nControl codes can be expressed only in integer values." << std::endl;
+      std::cout << e.what()
+                << "\nControl codes can be expressed only in integer values."
+                << std::endl;
       return -1;
     }
     bool result = grabber->getFeature(controlCode, &value);
 
     if (!result) {
-      std::cout << "Error on getfeature" << std::endl;
-      // emitError("blue gain");
+      std::cout << "Unable to get control " + std::to_string(controlCode) +
+                       ".\nCheck remote yarpdev device."
+                << std::endl;
       return -1;
     }
-    std::cout << "Value for control code " << controlCode << " is: " << value << std::endl;
+    std::cout << "Value for control code " << controlCode << " is: " << value
+              << std::endl;
   }
 
   return 0;

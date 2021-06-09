@@ -30,8 +30,12 @@ UltraPythonCli::~UltraPythonCli() {}
 bool UltraPythonCli::InitYarpCommunication(
     const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
   if (!yarp::os::NetworkBase::checkNetwork(2)) {
+    std::cout
+        << "Yarp yarpserver not found.\nPlease activate yarpserver and retry."
+        << std::endl;
     return false;
   }
+  
   property_.put("device", "remote_grabber");
   property_.put("local", "/xxx");
   property_.put("remote", remotePort + "/rpc");
@@ -49,7 +53,8 @@ bool UltraPythonCli::InitYarpCommunication(
   return true;
 }
 
-std::vector<std::string> UltraPythonCli::splitString(const std::string& s, const char* separator) {
+std::vector<std::string> UltraPythonCli::splitString(const std::string& s,
+                                                     const char* separator) {
   std::vector<std::string> output;
   std::string::size_type previous_position = 0;
   std::string::size_type position = 0;
@@ -60,14 +65,9 @@ std::vector<std::string> UltraPythonCli::splitString(const std::string& s, const
     output.push_back(substring);
     previous_position = ++position;
   }
-  // Last word
+  // Parse last word
   output.push_back(s.substr(previous_position, position - previous_position));
   return output;
-}
-
-void UltraPythonCli::emitError(const std::string& text)
-{
-    std::cout << "Not able to set " + text + ".\nCheck remote yarpdev device." << std::endl;
 }
 
 /*
