@@ -27,13 +27,13 @@ int main(int argc, char* argv[]) {
   double value = 0.0;
   std::string port_name = "/grabber";
 
-  if (argc > 4 || argc < 2) {
+  if (argc > 5 || argc < 2) {
     std::cout << "Use 'ultrapythoncli --help'" << std::endl;
     return -1;
   }
 
   if (std::string(argv[1]) == "--help") {
-    std::cout << "Usage 'ultrapythoncli [--help] [--get controlcode] [--set "
+    std::cout << "Usage 'ultrapythoncli [--help] [--remote portname] [--get controlcode] [--set "
                  "controlcode value]'\n"
                  "NOTE: the name is without rpc and "
                  "port name usually is /grabber"
@@ -44,6 +44,14 @@ int main(int argc, char* argv[]) {
   yarp::dev::IFrameGrabberControls* grabber{nullptr};
   UltraPythonCli client(grabber);
 
+  if (argc >= 3 && std::string(argv[1]) == "--remote") {
+      port_name = argv[2];
+  } else {
+       std::cout<< "Please select the remote port before selecting the command."
+                << std::endl;
+      return -1;     
+  }
+  
   if (!client.InitYarpCommunication(port_name)) {
     return -1;
   }
