@@ -28,11 +28,17 @@
 
 #include "../common/common.h"
 
+struct CliArg {
+  int code;
+  double value;
+};
+
 class UltraPythonCli {
  public:
   /**
    * @brief Construct a new Ultra Python Cli object
-   * @param grabber Pointer to object representing the camera features controller
+   * @param grabber Pointer to object representing the camera features
+   * controller
    */
   UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber);
 
@@ -40,6 +46,16 @@ class UltraPythonCli {
    * @brief Destroy the Ultra Python Cli object
    */
   ~UltraPythonCli();
+
+  /**
+   * @brief Used to parse command line arguments
+   *
+   * @param argc
+   * @param argv
+   * @param args_map map of arguments: can be --help, --remote, --set, --get.
+   * @return true if arguments could be parsed correctly, false otherwise.
+   */
+  bool ParseArgs(int argc, char* argv[], std::map<std::string, std::string>& args_map_);
 
   /**
    * @brief Verifies the status of the Yarp network and sets the properties
@@ -60,15 +76,7 @@ class UltraPythonCli {
    */
   std::vector<std::string> splitString(const std::string& c,
                                        const char* separator);
-  /*
-      bool setGrabberFeature(int feature, double value);
 
-      bool setGrabberFeature(int feature, double value1, double value2);
-
-      bool getGrabberFeature(int feature, double *value);
-
-      bool getGrabberFeature(int feature, double *value1, double *value2);
-  */
  private:
   /**
    * @brief Device object containing connection properties needed to instantiate
@@ -80,10 +88,10 @@ class UltraPythonCli {
    * @brief Container of connection properties of the device.
    */
   yarp::os::Property property_;
-  
+
   /**
    * @brief Pointer to camera features grabber
-   * 
+   *
    */
   yarp::dev::IFrameGrabberControls* grabber_;
 };

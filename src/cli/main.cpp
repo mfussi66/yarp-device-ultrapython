@@ -26,38 +26,20 @@ int main(int argc, char* argv[]) {
   int control_code = 0;
   double value = 0.0;
   std::string port_name = "/grabber";
-
-  if (argc > 5 || argc < 2) {
-    std::cout << "Use 'ultrapythoncli --help'" << std::endl;
-    return -1;
-  }
-
-  if (std::string(argv[1]) == "--help") {
-    std::cout << "Usage 'ultrapythoncli [--help] [--remote portname] "
-                 "[--get controlcode] [--set "
-                 "controlcode value]'\n"
-                 "NOTE: the name is without rpc and "
-                 "port name usually is /grabber"
-              << std::endl;
-    return -1;
-  }
+  std::map<std::string, std::string> args_map;
 
   yarp::dev::IFrameGrabberControls* grabber{nullptr};
   UltraPythonCli client(grabber);
 
-  if (argc >= 3 && std::string(argv[1]) == "--remote") {
-    port_name = argv[2];
-  } else {
-    std::cout << "Please select the appropriate remote port." << std::endl;
+  if (!client.ParseArgs(argc, argv, args_map)) {
+    return -1;
+  }
+  if (!client.InitYarpCommunication(args_map["--remote"])) {
     return -1;
   }
 
-  if (!client.InitYarpCommunication(port_name)) {
-    return -1;
-  }
-
-  if (std::string(argv[1]) == "--set") {
-    std::vector<std::string> set_args = client.splitString(argv[2], "=");
+  if (args_map.find("--set") != args_map.end()) {
+    std::vector<std::string> set_args = client.splitString(args_map["--set"], "=");
 
     // Assume control code as first string
     try {
@@ -88,9 +70,9 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  if (std::string(argv[1]) == "--get") {
+  if (args_map.find("--get") != args_map.end()) {
     try {
-      control_code = std::atoi(argv[2]);
+      control_code = std::stoi(args_map["--get"]);
     } catch (const std::exception& e) {
       std::cout << e.what()
                 << "\nControl codes can be expressed only in integer values."

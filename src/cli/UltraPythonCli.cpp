@@ -18,20 +18,51 @@
 
 #include "UltraPythonCli.h"
 
-UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber) {
-};
+UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber){};
 
 UltraPythonCli::~UltraPythonCli() {}
 
-bool UltraPythonCli::InitYarpCommunication(
-    const std::string& remotePort) {
+bool UltraPythonCli::ParseArgs(int argc, char* argv[],
+                               std::map<std::string, std::string>& args_map) {
+  if (argc > 5 || argc < 2) {
+    std::cout << "Use 'ultrapythoncli --help'" << std::endl;
+    return false;
+  }
+
+  if (std::string(argv[1]) == "--help") {
+    std::cout << "Usage 'ultrapythoncli [--help] [--remote portname] "
+                 "[--get controlcode] [--set "
+                 "controlcode value]'\n"
+                 "NOTE: the name is without rpc and "
+                 "port name usually is /grabber"
+              << std::endl;
+    return false;
+  }
+
+  if (argc >= 3 && std::string(argv[1]) == "--remote") {
+    args_map.insert({argv[1], argv[2]});
+  } else {
+    std::cout << "Remote port not found. Please select the appropriate remote "
+                 "port or set it as first argument."
+              << std::endl;
+    return false;
+  }
+
+  if (std::string(argv[3]) == "--set" || std::string(argv[3]) == "--get") {
+    args_map.insert({argv[3], argv[4]});
+  }
+
+  return true;
+}
+
+bool UltraPythonCli::InitYarpCommunication(const std::string& remotePort) {
   if (!yarp::os::NetworkBase::checkNetwork(2)) {
     std::cout
         << "Yarp yarpserver not found.\nPlease activate yarpserver and retry."
         << std::endl;
     return false;
   }
-  
+
   property_.put("device", "remote_grabber");
   property_.put("local", "/xxx");
   property_.put("remote", remotePort + "/rpc");
@@ -65,21 +96,3 @@ std::vector<std::string> UltraPythonCli::splitString(const std::string& s,
   output.push_back(s.substr(previous_position, position - previous_position));
   return output;
 }
-
-/*
-bool UltraPythonCli::setGrabberFeature(int feature, double value) {
-return grabber->setFeature(feature, value);
-}
-
-bool UltraPythonCli::setGrabberFeature(int feature, double value1, double
-value2) { return grabber->setFeature(feature, value1, value2);
-}
-
-bool UltraPythonCli::getGrabberFeature(int feature, double *value) {
-return grabber->getFeature(feature, value);
-}
-
-bool UltraPythonCli::getGrabberFeature(int feature, double *value1, double
-*value2) { return grabber->getFeature(feature, value1, value2);
-}
- */
