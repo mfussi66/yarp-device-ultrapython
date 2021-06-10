@@ -29,4 +29,22 @@ class IFrameGrabberControlsMock : public yarp::dev::IFrameGrabberControls {
  public:
   MOCK_METHOD(bool, setFeature, (int, double), (override));
   MOCK_METHOD(bool, getFeature, (int, double *), (override));
+
+  bool getCameraDescription(CameraDescriptor *camera) override { return true; };
+  bool hasFeature(int feature, bool *hasFeature) override { return true; };
+  bool setFeature(int feature, double value1, double value2) override {
+    return true;
+  };
+  bool getFeature(int feature, double *value1, double *value2) override {
+    return true;
+  };
+  bool hasOnOff(int feature, bool *HasOnOff) override { return true; };
+  bool setActive(int feature, bool onoff) override { return true; };
+  bool getActive(int feature, bool *isActive) override { return true; };
+  bool hasAuto(int feature, bool *hasAuto) override { return true; };
+  bool hasManual(int feature, bool *hasManual) override { return true; };
+  bool hasOnePush(int feature, bool *hasOnePush) override { return true; };
+  bool setMode(int feature, FeatureMode mode) override { return true; };
+  bool getMode(int feature, FeatureMode *mode) override { return true; };
+  bool setOnePush(int feature) override { return true; };
 };

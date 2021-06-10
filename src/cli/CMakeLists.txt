@@ -14,6 +14,7 @@ add_executable(ultrapythoncli)
 
 target_link_libraries(ultrapythoncli
 PRIVATE
+  ultrapythoncommon
   YARP::YARP_os
   YARP::YARP_sig
   YARP::YARP_dev

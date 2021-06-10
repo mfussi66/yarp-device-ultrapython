@@ -19,6 +19,8 @@ set(SOURCES gtest_main.cc
             ../InterfaceForCApi.h
             ../UltraPythonCameraHelper.h
             ../UltraPythonCameraHelper.cpp
+            ../../../cli/UltraPythonCli.h
+            ../../../cli/UltraPythonCli.cpp
             ../Statistics.cpp
             )
 

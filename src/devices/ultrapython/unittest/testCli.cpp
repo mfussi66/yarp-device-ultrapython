@@ -22,6 +22,26 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-/* TEST(UltraPythonCli, setFeature_ok) {
-    IFrameGrabberControlsMock *grabber = new IFrameGrabberControlsMock();
-} */
+TEST(UltraPython, setFeature_ok) {
+    IFrameGrabberControlsMock *grabber_mock = new IFrameGrabberControlsMock();
+    UltraPythonCli mock_client(grabber_mock);
+
+    bool result = grabber_mock->setFeature(YARP_FEATURE_BRIGHTNESS_ABSOLUTE, 10);
+
+    EXPECT_TRUE(result);
+
+    delete grabber_mock;
+}
+
+TEST(UltraPython, getFeature_ok) {
+    IFrameGrabberControlsMock *grabber_mock = new IFrameGrabberControlsMock();
+    UltraPythonCli mock_client(grabber_mock);
+
+    double value = -1.0;
+
+    bool result = grabber_mock->getFeature(YARP_FEATURE_BRIGHTNESS_ABSOLUTE, &value);
+
+    EXPECT_EQ(value, 1);
+
+    delete grabber_mock;
+}

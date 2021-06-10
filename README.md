@@ -213,13 +213,13 @@ The user can access the camera controls on the terminal through a command line a
 
 To set a camera feature, use
 ```
-ultrapythoncli --remote <port name> --set <YARP code>=<value>
+ultrapythoncli --remote /name --set <YARP code>=<value>
 ```
 where the YARP code for the desired feature is defined in [Section 3.6](##3.6.-YARP-V4L-feature-that-can-be-used-together-with-the-UltraPython), and the target value is expressed in absolute units.
 
 Similarly, to get the current value of a desired feature in absolute units, use
 ```
-ultrapythoncli --remote <port name>  --get <YARP code>
+ultrapythoncli --remote /name  --get <YARP code>
 ```
 
 **NOTE**:  
