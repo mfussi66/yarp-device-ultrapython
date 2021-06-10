@@ -49,8 +49,7 @@ class UltraPythonCli {
    * @param grabber pointer to the frame grabber object to be filled
    * @return true if successful, false otherwise.
    */
-  bool InitYarpCommunication(const std::string& remotePort,
-                             yarp::dev::IFrameGrabberControls* grabber);
+  bool InitYarpCommunication(const std::string& remotePort);
 
   /**
    * @brief Splits a string according to a custom separator
@@ -81,4 +80,10 @@ class UltraPythonCli {
    * @brief Container of connection properties of the device.
    */
   yarp::os::Property property_;
+  
+  /**
+   * @brief Pointer to camera features grabber
+   * 
+   */
+  yarp::dev::IFrameGrabberControls* grabber_;
 };

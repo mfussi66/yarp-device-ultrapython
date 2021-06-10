@@ -19,16 +19,12 @@
 #include "UltraPythonCli.h"
 
 UltraPythonCli::UltraPythonCli(yarp::dev::IFrameGrabberControls* grabber) {
-  if (!grabber) {
-    std::cout << "Unable to view device." << std::endl;
-    exit(-1);
-  }
 };
 
 UltraPythonCli::~UltraPythonCli() {}
 
 bool UltraPythonCli::InitYarpCommunication(
-    const std::string& remotePort, yarp::dev::IFrameGrabberControls* grabber) {
+    const std::string& remotePort) {
   if (!yarp::os::NetworkBase::checkNetwork(2)) {
     std::cout
         << "Yarp yarpserver not found.\nPlease activate yarpserver and retry."
@@ -43,9 +39,9 @@ bool UltraPythonCli::InitYarpCommunication(
   if (!device_.open(property_)) {
     return false;
   }
-  device_.view(grabber);
+  device_.view(grabber_);
 
-  if (!grabber) {
+  if (!grabber_) {
     std::cout << "Unable to view device." << std::endl;
     return false;
   }

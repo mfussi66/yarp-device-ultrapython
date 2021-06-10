@@ -34,17 +34,19 @@ int main(int argc, char* argv[]) {
 
   if (std::string(argv[1]) == "--help") {
     std::cout << "Usage 'ultrapythoncli [--help] [--get controlcode] [--set "
-                 "controlcode value]'"
+                 "controlcode value]'\n"
                  "NOTE: the name is without rpc and "
                  "port name usually is /grabber"
               << std::endl;
     return -1;
   }
 
-  yarp::dev::IFrameGrabberControls* grabber;
+  yarp::dev::IFrameGrabberControls* grabber{nullptr};
   UltraPythonCli client(grabber);
 
-  client.InitYarpCommunication(port_name, grabber);
+  if (!client.InitYarpCommunication(port_name)) {
+    return -1;
+  }
 
   if (std::string(argv[1]) == "--set") {
     std::vector<std::string> set_args = client.splitString(argv[2], "=");
