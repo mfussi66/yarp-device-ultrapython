@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
   if (argc >= 3 && std::string(argv[1]) == "--remote") {
       port_name = argv[2];
   } else {
-       std::cout<< "Please select the remote port before selecting the command."
+       std::cout<< "Please select the appropriate remote port."
                 << std::endl;
       return -1;     
   }

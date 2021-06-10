@@ -209,18 +209,21 @@ the name is without rpc and the port name usually is /grabber. For name look at 
 `frameGrabberGui2` is not the right choice for the UltraPyhton camera system.
 
 ## 2.2 WIP - UltraPython Command Line Interface
-The user can access the camera controls on the terminal through a command line application called `ultrapythoncli`. The used port name is `/grabber`.
+The user can access the camera controls on the terminal through a command line application called `ultrapythoncli`.
 
 To set a camera feature, use
 ```
-ultrapythoncli --set <YARP code>=<value>
+ultrapythoncli --remote <port name> --set <YARP code>=<value>
 ```
 where the YARP code for the desired feature is defined in [Section 3.6](##3.6.-YARP-V4L-feature-that-can-be-used-together-with-the-UltraPython), and the target value is expressed in absolute units.
 
 Similarly, to get the current value of a desired feature in absolute units, use
 ```
-ultrapythoncli --get <YARP code>
+ultrapythoncli --remote <port name>  --get <YARP code>
 ```
+
+**NOTE**:  
+Like the GUI, the port name usually is /grabber. For name look at .ini file **name** field.
 
 ## 2.3. The .ini files
 
