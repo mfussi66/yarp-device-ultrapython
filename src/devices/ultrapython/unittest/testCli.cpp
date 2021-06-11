@@ -24,7 +24,7 @@
 
 using namespace testing;
 
-TEST(UltraPython, setFeature_ok) {
+TEST(UltraPyCli, setFeature_ok) {
     IFrameGrabberControlsMock *grabber_mock = new IFrameGrabberControlsMock();
     UltraPythonCli mock_client(grabber_mock);
 
@@ -38,7 +38,7 @@ TEST(UltraPython, setFeature_ok) {
     delete grabber_mock;
 }
 
-TEST(UltraPython, getFeature_ok) {
+TEST(UltraPyCli, getFeature_ok) {
     IFrameGrabberControlsMock *grabber_mock = new IFrameGrabberControlsMock();
     UltraPythonCli mock_client(grabber_mock);
 
@@ -54,7 +54,7 @@ TEST(UltraPython, getFeature_ok) {
     delete grabber_mock;
 }
 
-TEST(UltraPython, split_string_ok) {
+TEST(UltraPyCli, split_string_ok) {
     // use ; as delimiter
     std::string test1 = "a;b";
     std::string test2 = "a;b;c";
